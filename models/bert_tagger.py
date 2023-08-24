@@ -5,14 +5,14 @@
 #
 
 import torch.nn as nn
-from transformers import BertModel, BertPreTrainedModel
+from transformers import AutoModel, RobertaPreTrainedModel
 from models.classifier import BERTTaggerClassifier
 
 
-class BertTagger(BertPreTrainedModel):
+class BertTagger(RobertaPreTrainedModel):
     def __init__(self, config):
         super(BertTagger, self).__init__(config)
-        self.bert = BertModel(config)
+        self.bert = AutoModel(config)
 
         self.num_labels = config.num_labels
         self.hidden_size = config.hidden_size

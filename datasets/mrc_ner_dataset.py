@@ -5,7 +5,7 @@
 
 import json
 import torch
-from tokenizers import BertWordPieceTokenizer
+from tokenizers import SentencePieceBPETokenizer
 from torch.utils.data import Dataset
 
 
@@ -19,7 +19,7 @@ class MRCNERDataset(Dataset):
         possible_only: if True, only use possible samples that contain answer for the query/context
         is_chinese: is chinese dataset
     """
-    def __init__(self, json_path, tokenizer: BertWordPieceTokenizer, max_length: int = 512, possible_only=False,
+    def __init__(self, json_path, tokenizer: SentencePieceBPETokenizer, max_length: int = 256, possible_only=False,
                  is_chinese=False, pad_to_maxlen=False):
         self.all_data = json.load(open(json_path, encoding="utf-8"))
         self.tokenizer = tokenizer
@@ -132,7 +132,7 @@ class MRCNERDataset(Dataset):
         end_label_mask = end_label_mask[: self.max_length]
 
         # make sure last token is [SEP]
-        sep_token = tokenizer.token_to_id("[SEP]")
+        sep_token = tokenizer.token_to_id("</s>")
         if tokens[-1] != sep_token:
             assert len(tokens) == self.max_length
             tokens = tokens[: -1] + [sep_token]
@@ -194,7 +194,7 @@ def run_dataset():
     # is_chinese = False
 
     vocab_file = os.path.join(bert_path, "vocab.txt")
-    tokenizer = BertWordPieceTokenizer(vocab_file)
+    tokenizer = SentencePieceBPETokenizer(vocab_file)
     dataset = MRCNERDataset(json_path=json_path, tokenizer=tokenizer,
                             is_chinese=is_chinese)
 

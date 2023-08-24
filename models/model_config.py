@@ -3,17 +3,17 @@
 
 # file: model_config.py
 
-from transformers import BertConfig
+from transformers import AutoConfig
 
 
-class BertQueryNerConfig(BertConfig):
+class BertQueryNerConfig(AutoConfig):
     def __init__(self, **kwargs):
         super(BertQueryNerConfig, self).__init__(**kwargs)
         self.mrc_dropout = kwargs.get("mrc_dropout", 0.1)
         self.classifier_intermediate_hidden_size = kwargs.get("classifier_intermediate_hidden_size", 1024)
         self.classifier_act_func = kwargs.get("classifier_act_func", "gelu")
 
-class BertTaggerConfig(BertConfig):
+class BertTaggerConfig(AutoConfig):
     def __init__(self, **kwargs):
         super(BertTaggerConfig, self).__init__(**kwargs)
         self.num_labels = kwargs.get("num_labels", 6)

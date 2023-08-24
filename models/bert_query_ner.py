@@ -5,15 +5,16 @@
 
 import torch
 import torch.nn as nn
-from transformers import BertModel, BertPreTrainedModel
+# from transformers import BertModel, BertPreTrainedModel
+from transformers import AutoModel, RobertaPreTrainedModel
 
 from models.classifier import MultiNonLinearClassifier
 
 
-class BertQueryNER(BertPreTrainedModel):
+class BertQueryNER(RobertaPreTrainedModel):
     def __init__(self, config):
         super(BertQueryNER, self).__init__(config)
-        self.bert = BertModel(config)
+        self.bert = AutoModel(config)
 
         self.start_outputs = nn.Linear(config.hidden_size, 1)
         self.end_outputs = nn.Linear(config.hidden_size, 1)
